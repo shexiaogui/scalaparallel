@@ -1,0 +1,7 @@
+.idea
+project/target
+project/project/target
+target
+*.sc
+*.jpg
+src/test/scala/scalashop/log
