@@ -22,7 +22,7 @@ object LineOfSightRunner {
     println(s"sequential time: $seqtime ms")
 
     val partime = standardConfig measure {
-      LineOfSight.parLineOfSight(input, output, 10000)
+      LineOfSight.parLineOfSight(input, output, length / 10) //
     }
     println(s"parallel time: $partime ms")
     println(s"speedup: ${seqtime / partime}")
@@ -72,8 +72,7 @@ object LineOfSight {
    *  If the specified part of the array is longer than `threshold`, then the
    *  work is divided and done recursively in parallel.
    */
-  def upsweep(input: Array[Float], from: Int, end: Int,
-    threshold: Int): Tree = {
+  def upsweep(input: Array[Float], from: Int, end: Int, threshold: Int): Tree = {
     if(end - from <= threshold) Leaf(from, end, upsweepSequential(input, from, end))
     else{
       val mid = from + (end - from) / 2
@@ -86,8 +85,7 @@ object LineOfSight {
    *  `until`, and computes the maximum angle for each entry of the output array,
    *  given the `startingAngle`.
    */
-  def downsweepSequential(input: Array[Float], output: Array[Float],
-    startingAngle: Float, from: Int, until: Int): Unit = {
+  def downsweepSequential(input: Array[Float], output: Array[Float], startingAngle: Float, from: Int, until: Int): Unit = {
     var i = from
     while(i < until){
       if(i == from) output(i) = max(input(i) / i, startingAngle)
