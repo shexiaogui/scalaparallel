@@ -90,11 +90,11 @@ abstract class ParallelScan {
       output(i) = a
     }
   }
-  def upSweepRnage[A](input: Array[A], from: Int, to: Int, f: (A, A) => A): TreeResRange[A] = {
+  def upSweepRange[A](input: Array[A], from: Int, to: Int, f: (A, A) => A): TreeResRange[A] = {
     if(to - from < threshold) LeafResRange(from, to, reduceSeq(input, from + 1, to, input(from), f))
     else{
       val mid = from + (to - from) / 2
-      val (tLeft, tRight) = parallel(upSweepRnage(input, from, mid, f), upSweepRnage(input, mid, to, f))
+      val (tLeft, tRight) = parallel(upSweepRange(input, from, mid, f), upSweepRange(input, mid, to, f))
       NodeResRange(tLeft, f(tLeft.res , tRight.res), tRight)
     }
   }
